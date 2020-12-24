@@ -8,6 +8,8 @@ use App\Blog\Entity\Comment;
 use App\Blog\Entity\Post;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
+use Cycle\Annotated\Annotation\Relation\Embedded;
+
 use Cycle\Annotated\Annotation\Relation\HasMany;
 use Cycle\Annotated\Annotation\Table;
 use Cycle\Annotated\Annotation\Table\Index;
@@ -52,6 +54,11 @@ class User implements IdentityInterface
     private DateTimeImmutable $updated_at;
 
     /**
+     * @Embedded (target="Name")
+     */
+    private ?Name $name = null;
+
+    /**
      * @HasMany(target="App\Blog\Entity\Post")
      *
      * @var ArrayCollection|Post[]
@@ -73,6 +80,7 @@ class User implements IdentityInterface
         $this->setPassword($password);
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->name = new Name();
     }
 
     public function getId(): ?string
